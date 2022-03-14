@@ -1,0 +1,28 @@
+﻿@using Blazored.Toast.Configuration
+@inherits LayoutComponentBase
+
+<PageTitle>Jeremy_Castillo_Ap1_p2</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+        
+    </main>
+</div>
+<BlazoredToasts Position="ToastPosition.BottomRight" Timeout="4"
+                IconType="IconType.Material"
+                SuccessIcon="👌"
+                InfoIcon="‼"
+                WarningIcon="⚠"
+                ErrorIcon="❌">
+</BlazoredToasts>
