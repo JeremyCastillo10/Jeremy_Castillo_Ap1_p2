@@ -70,7 +70,8 @@
     public string? filtro { get; set; }
     public string? Criterio { get; set; }
     public List<Productos> lista { get; set; } = new List<Productos>();
-
+    
+    public List<EntradaEmpacado> listap { get; set; } = new List<EntradaEmpacado>();
 
   [Inject]
     public ProductosBLL productosBLL { get; set; }
@@ -89,6 +90,27 @@
                     break;
                 case "2":
                     lista=productosBLL.GetList(p => p.FechaCaducidad.ToString().Contains(Criterio.ToLower()));
+                    break;
+                    case "3":
+                    lista=productosBLL.GetList(p => p.Costo.ToString().Contains(Criterio.ToLower()));
+                    break;
+                case "4":
+                    lista=productosBLL.GetList(p => p.Existencia.ToString().Contains(Criterio.ToLower()));
+                    break;
+                case "5":
+                    lista=productosBLL.GetList(p => p.Precio.ToString().Contains(Criterio.ToLower()));
+                    break;
+                case "6":
+                    lista=productosBLL.GetList(p => p.Ganancia.ToString().Contains(Criterio.ToLower()));
+                    break;
+                case "7":
+                    listap=productosBLL.GetListEntrada(e => e.Fecha.ToString().Contains(Criterio.ToLower()));
+                    break;
+                case "8":
+                    listap=productosBLL.GetListEntrada(e => e.Concepto.ToString().Contains(Criterio.ToLower()));
+                    break;
+                case "9":
+                    listap=productosBLL.GetListEntrada(e => e.Id.ToString().Contains(Criterio.ToLower()));
                     break;
             }
         }else
