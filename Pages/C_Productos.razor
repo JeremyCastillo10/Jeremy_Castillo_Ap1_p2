@@ -20,13 +20,6 @@
                         <option value="0">ID</option>
                         <option value="1">Descripcion</option>
                         <option value="2">FechaCaducidad</option>
-                        <option value="3">costo</option>
-                        <option value="4">Existencia</option>
-                        <option value="5">Precio</option>
-                        <option value="6">Ganancia</option>
-                        <option value="7">Fecha</option>
-                        <option value="8">Concepto</option>
-                        <option value="9">EntradaId</option>
 
                     </InputSelect>
 
@@ -98,27 +91,6 @@
                     break;
                 case "2":
                     lista=productosBLL.GetList(p => p.FechaCaducidad.ToString().Contains(Criterio.ToLower()));
-                    break;
-                    case "3":
-                    lista=productosBLL.GetList(p => p.Costo.ToString().Contains(Criterio.ToLower()));
-                    break;
-                case "4":
-                    lista=productosBLL.GetList(p => p.Existencia.ToString().Contains(Criterio.ToLower()));
-                    break;
-                case "5":
-                    lista=productosBLL.GetList(p => p.Precio.ToString().Contains(Criterio.ToLower()));
-                    break;
-                case "6":
-                    lista=productosBLL.GetList(p => p.Ganancia.ToString().Contains(Criterio.ToLower()));
-                    break;
-                case "7":
-                    listap=productosBLL.GetListEntrada(e => e.Fecha.ToString().Contains(Criterio.ToLower()));
-                    break;
-                case "8":
-                    listap=productosBLL.GetListEntrada(e => e.Concepto.ToString().Contains(Criterio.ToLower()));
-                    break;
-                case "9":
-                    listap=productosBLL.GetListEntrada(e => e.Id.ToString().Contains(Criterio.ToLower()));
                     break;
             }
         }else
