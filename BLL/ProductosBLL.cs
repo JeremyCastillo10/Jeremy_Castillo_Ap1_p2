@@ -51,7 +51,7 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
             return paso;
         }
 
-        public bool Modificar(Productos productos)
+        private bool Modificar(Productos productos)
         {
             bool paso = false;
 
@@ -171,24 +171,39 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
             return paso;
         }
 
-         public bool Insertaremp(EntradaEmpacado entrada)
+         private bool Insertaremp(EntradaEmpacado entrada)
+        {
+            bool paso = false;
+            try
+            {
+                _contexto.EntradaEmpacado.Add(entrada);
+                Productos pro = new Productos();
+                EntradaEmpacado en = new EntradaEmpacado();
+                pro.Existencia -= en.CantidadUtilizado;
+                paso = _contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return paso;
+        }
+
+        private bool Modificaremp(EntradaEmpacado entrada)
         {
             bool paso = false;
 
             try
             {
-                _contexto.EntradaEmpacado.Add(entrada);
+                _contexto.Database.ExecuteSqlRaw($"Delete FROM EntradaEmpacado where Id={entrada.Id}");
 
-                foreach(var detalle in entrada.productos)
+                foreach (var anterior in Productos.EntradaEmpacados)
                 {
-                    _contexto.Entry(detalle).State = EntityState.Added;
-
-                    _contexto.Entry(detalle.Existencia).State = EntityState.Modified;
-
-                    detalle.Existencia = detalle.Existencia - entrada.CantidadUtilizado;
-                    
+                    _contexto.Entry(anterior).State = EntityState.Added;
                 }
-                Productos.Existencia -= entrada.CantidadUtilizado; 
+
+                _contexto.Entry(entrada).State = EntityState.Modified;
 
                 paso = _contexto.SaveChanges() > 0;
             }
@@ -196,43 +211,11 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
             {
                 throw;
             }
-            return paso;
-        }
-
-        public bool Modificaremp(EntradaEmpacado entrada)
-        {
-            bool paso = false;
-
-            try{
-                var anterior = _contexto.EntradaEmpacado
-                .Where(x => x.Id == entrada.Id)
-                .Include(x => x.producto)
-                .AsNoTracking()
-                .SingleOrDefault();
-
-                foreach(var detalle in anterior.productos)
-                {
-                    detalle.Existencia -= entrada.CantidadUtilizado;
-                }
-                _contexto.Database.ExecuteSqlRaw($"Delete FROM ProductosDetalles where ProductoId={entrada.Id}");
-
-                foreach(var item in entrada.productos)
-                {
-                    _contexto.Entry(item).State = EntityState.Added;
-                    _contexto.Entry(item.Existencia).State = EntityState.Modified;
-                    item.Existencia -= entrada.CantidadUtilizado;
-                }
-                _contexto.Entry(entrada).State = EntityState.Modified;
-                paso = _contexto.SaveChanges() > 0;
-            }
-            catch(Exception)
-            {
-                throw;
-            }
             finally
             {
                 _contexto.Dispose();
             }
+
             return paso;
 
         
@@ -270,20 +253,17 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
 
         public EntradaEmpacado BuscarEmp(int entradaId)
         {
-            EntradaEmpacado entradaEmpacado = new EntradaEmpacado();
-
+            EntradaEmpacado? entrada;
             try
             {
-                entradaEmpacado = _contexto.EntradaEmpacado.Include(z => z.Id)
-                    .Where(x => x.Id == entradaId)
-                    .SingleOrDefault();
+                entrada = _contexto.EntradaEmpacado.Find(entradaId);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return entradaEmpacado;
+            return entrada;
         }
 
         public List<EntradaEmpacado> GetListEntrada(Expression<Func<EntradaEmpacado, bool>> criterio)

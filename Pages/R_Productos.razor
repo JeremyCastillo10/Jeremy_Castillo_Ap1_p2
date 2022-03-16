@@ -51,7 +51,7 @@
 
                    <label>Existencia</label>
 
-                   <InputNumber class="form-control" @bind-Value = "producto.Existencia" />
+                   <InputNumber class="form-control" @bind-Value = "producto.Existencia" @onchange="ExistenciaOrCostoChanged" />
 
                    <ValidationMessage For="@(() =>producto.Existencia)"/>
 
@@ -247,11 +247,7 @@
 
     public void ExistenciaEmOrChanged()
     {
-        entrada.Existencia = producto.Existencia;
-
-        entrada.Existencia -= entrada.CantidadUtilizado;
-
-        producto.Existencia = entrada.Existencia;
+        producto.Existencia -= entrada.CantidadUtilizado;
     }
 
     private void AgregarDetalle()

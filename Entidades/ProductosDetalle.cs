@@ -13,7 +13,6 @@ public class ProductosDetalle
     public int Cantidad { get; set; }
     public decimal Precio { get; set; }
 
-    public int ExistenciaEmpa { get; set; }
 
 }
 }

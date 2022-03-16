@@ -17,21 +17,6 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
 
-            modelBuilder.Entity("EntradaEmpacadoProductos", b =>
-                {
-                    b.Property<int>("EntradaEmpacadosId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("productosProductoId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("EntradaEmpacadosId", "productosProductoId");
-
-                    b.HasIndex("productosProductoId");
-
-                    b.ToTable("EntradaEmpacadoProductos");
-                });
-
             modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", b =>
                 {
                     b.Property<int>("Id")
@@ -45,18 +30,25 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Concepto")
+                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("Existencia")
-                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("producto")
+                    b.Property<string>("ProductoProducido")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ProductoUtilizado")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ProductosProductoId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductosProductoId");
 
                     b.ToTable("EntradaEmpacado");
                 });
@@ -112,9 +104,6 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                     b.Property<string>("Descripcion")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ExistenciaEmpa")
-                        .HasColumnType("INTEGER");
-
                     b.Property<decimal>("Precio")
                         .HasColumnType("TEXT");
 
@@ -131,19 +120,11 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                     b.ToTable("ProductosDetalles");
                 });
 
-            modelBuilder.Entity("EntradaEmpacadoProductos", b =>
+            modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", b =>
                 {
-                    b.HasOne("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", null)
-                        .WithMany()
-                        .HasForeignKey("EntradaEmpacadosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Jeremy_Castillo_Ap1_p2.Entidades.Productos", null)
-                        .WithMany()
-                        .HasForeignKey("productosProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("EntradaEmpacados")
+                        .HasForeignKey("ProductosProductoId");
                 });
 
             modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.ProductosDetalle", b =>
@@ -157,6 +138,8 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
 
             modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.Productos", b =>
                 {
+                    b.Navigation("EntradaEmpacados");
+
                     b.Navigation("productosDetalle");
                 });
 #pragma warning restore 612, 618

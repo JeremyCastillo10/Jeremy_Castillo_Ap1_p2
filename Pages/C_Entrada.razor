@@ -35,18 +35,22 @@
         <table class="table table-light">
             <thead class="thead">
                 <tr class="table">
-                    <th>Fecha</th>
-                    <th>Concepto</th>
                     <th>Id</th>
+                    <th>Concepto</th>
+                    <th>Cantidad Utilizada</th>
+                    <th>Empaques Producidos</th>
+                    <th>Fecha</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in listap)
                 {
                     <tr>
-                        <td>@item.Fecha</td>
+                        <td>@item.Id</td>
                         <td>@item.Concepto</td>
-                        <td>@item.Id</td>>
+                        <td>@item.CantidadUtilizado</td>
+                        <td>@item.CantidadProducido</td>
+                        <td>@item.Fecha</td>>
                         <td><a class="btn btn-sm btn-outline-primary oi oi-eye" href="R_Empaquetado/@item.Id">Ver</a></td>
                     </tr>
                 }

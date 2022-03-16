@@ -1,5 +1,6 @@
 @page "/R_Empaquetado"
 
+
 @inject IToastService toastService
 <EditForm Model="producto" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
@@ -60,8 +61,7 @@
                         <div class="input-group d-flex align-items-end">
                             <div class="flex-fill mx-2">
                                 <label>Producto</label>
-                                 <InputSelect @bind-Value="entrada.producto" class="form-control">
-
+                                 <InputSelect @bind-Value="entrada.ProductoUtilizado" class="form-control">
                                     @foreach (var item in lista)
 
                                     {
@@ -98,7 +98,7 @@
                            {
                                @foreach (var item in entra)
                                {
-                                   if (item.Id == items.ProductoId || item.Id != items.ProductoId)
+                                   if (items.Descripcion == item.ProductoUtilizado)
                                    {
                                    <tr>
                                       <td>@items.ProductoId</td>
@@ -132,12 +132,11 @@
                         <div class="input-group d-flex align-items-end">
                             <div class="flex-fill mx-2">
                                 <label>Producto</label>
-                                 <InputSelect @bind-Value="entrada.producto" class="form-control">
-
-                                    @foreach (var item in lista)
+                                 <InputSelect @bind-Value="entrada.ProductoProducido" class="form-control">
+                                    @foreach (var items in lista)
 
                                     {
-                                        <option value="@item.Descripcion">@item.Descripcion</option>
+                                        <option value="@items.Descripcion">@items.Descripcion</option>
                                     }
                                 </InputSelect>
                                 
@@ -178,14 +177,18 @@
     [Parameter]
     public int entradaId { get; set; }
     public int productoId { get; set; }
+
+    public string ?utilizado {get; set;}
     public Productos producto { get; set; } = new Productos();
     ProductosDetalle productosDetalle = new ProductosDetalle();
-    bool paso = true;
-
     EntradaEmpacado entrada {get; set;} = new EntradaEmpacado();
     public List<Productos> lista { get; set; } = new List<Productos>();
+        
     public List<ProductosDetalle> lista1 { get; set; } = new List<ProductosDetalle>();
     public List<EntradaEmpacado> entra { get; set; } = new List<EntradaEmpacado>();
+    
+
+    
         
     [Inject]
     public ProductosBLL productosBLL { get; set; }
@@ -194,7 +197,6 @@
 
     protected override void OnInitialized()
     {
-    entrada.Id = entradaId;
     producto.ProductoId = productoId;
     lista = productosBLL.GetList(p => true); 
 
@@ -209,11 +211,11 @@
             if (encontrado != null)
             {
                 this.entrada = encontrado;
-                toastService.ShowSuccess("Producto encontrado.");
+                toastService.ShowSuccess("Empaque encontrado.");
             }
             else
             {
-                toastService.ShowError("No se encontró el producto");
+                toastService.ShowError("No se encontró el Empaque");
             }
         }
 
@@ -231,7 +233,6 @@
     {
         if (productosBLL.GuardarEmp(entrada))
         {
-            producto.Existencia -= entrada.CantidadUtilizado;
             toastService.ShowSuccess("Se guardó exitosamente");
             Nuevo();
         }
@@ -256,8 +257,20 @@
     }
 
     private void Agregar()
-    {
+    {   
         entra.Add(entrada);
+
+        foreach (var item in lista)
+        {
+            if(entrada.CantidadProducido > 0)
+            {
+                item.Existencia = item.Existencia - entrada.CantidadProducido*entrada.CantidadUtilizado;
+            }
+            else{
+                item.Existencia -= entrada.CantidadUtilizado;
+            }
+            
+        }
 
     }
 

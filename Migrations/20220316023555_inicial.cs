@@ -10,24 +10,6 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EntradaEmpacado",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    producto = table.Column<string>(type: "TEXT", nullable: true),
-                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Concepto = table.Column<string>(type: "TEXT", nullable: true),
-                    Existencia = table.Column<int>(type: "INTEGER", nullable: false),
-                    CantidadUtilizado = table.Column<int>(type: "INTEGER", nullable: false),
-                    CantidadProducido = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EntradaEmpacado", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Productos",
                 columns: table => new
                 {
@@ -48,27 +30,27 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EntradaEmpacadoProductos",
+                name: "EntradaEmpacado",
                 columns: table => new
                 {
-                    EntradaEmpacadosId = table.Column<int>(type: "INTEGER", nullable: false),
-                    productosProductoId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProductoUtilizado = table.Column<string>(type: "TEXT", nullable: true),
+                    ProductoProducido = table.Column<string>(type: "TEXT", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Concepto = table.Column<string>(type: "TEXT", nullable: false),
+                    CantidadUtilizado = table.Column<int>(type: "INTEGER", nullable: false),
+                    CantidadProducido = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProductosProductoId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntradaEmpacadoProductos", x => new { x.EntradaEmpacadosId, x.productosProductoId });
+                    table.PrimaryKey("PK_EntradaEmpacado", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EntradaEmpacadoProductos_EntradaEmpacado_EntradaEmpacadosId",
-                        column: x => x.EntradaEmpacadosId,
-                        principalTable: "EntradaEmpacado",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EntradaEmpacadoProductos_Productos_productosProductoId",
-                        column: x => x.productosProductoId,
+                        name: "FK_EntradaEmpacado_Productos_ProductosProductoId",
+                        column: x => x.ProductosProductoId,
                         principalTable: "Productos",
-                        principalColumn: "ProductoId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProductoId");
                 });
 
             migrationBuilder.CreateTable(
@@ -82,8 +64,7 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                     Concepto = table.Column<string>(type: "TEXT", nullable: true),
                     Presentacion = table.Column<string>(type: "TEXT", nullable: true),
                     Cantidad = table.Column<int>(type: "INTEGER", nullable: false),
-                    Precio = table.Column<decimal>(type: "TEXT", nullable: false),
-                    ExistenciaEmpa = table.Column<int>(type: "INTEGER", nullable: false)
+                    Precio = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,9 +78,9 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EntradaEmpacadoProductos_productosProductoId",
-                table: "EntradaEmpacadoProductos",
-                column: "productosProductoId");
+                name: "IX_EntradaEmpacado_ProductosProductoId",
+                table: "EntradaEmpacado",
+                column: "ProductosProductoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductosDetalles_ProductoId",
@@ -110,13 +91,10 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EntradaEmpacadoProductos");
+                name: "EntradaEmpacado");
 
             migrationBuilder.DropTable(
                 name: "ProductosDetalles");
-
-            migrationBuilder.DropTable(
-                name: "EntradaEmpacado");
 
             migrationBuilder.DropTable(
                 name: "Productos");
