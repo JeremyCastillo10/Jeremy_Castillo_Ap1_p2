@@ -14,6 +14,8 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
 
         Productos Productos = new Productos();
 
+        List<Productos> lista = new List<Productos>();
+
         public ProductosBLL(Contexto contexto)
         {
             _contexto = contexto;
@@ -171,15 +173,19 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
             return paso;
         }
 
-         private bool Insertaremp(EntradaEmpacado entrada)
+         public bool Insertaremp(EntradaEmpacado entrada)
         {
             bool paso = false;
+
             try
             {
                 _contexto.EntradaEmpacado.Add(entrada);
-                Productos pro = new Productos();
-                EntradaEmpacado en = new EntradaEmpacado();
-                pro.Existencia -= en.CantidadUtilizado;
+                var lista = entrada.entradaEmpacados;
+                
+                foreach(var item in lista)
+                {
+                    _contexto.Productos.Find(item.ProductoId).Existencia -= entrada.CantidadUtilizado;
+                }
                 paso = _contexto.SaveChanges() > 0;
             }
             catch (Exception)

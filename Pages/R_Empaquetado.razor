@@ -96,7 +96,7 @@
                         @foreach (var items in lista)
 
                            {
-                               @foreach (var item in entra)
+                               @foreach (var item in listaEmpaque)
                                {
                                    if (items.Descripcion == item.ProductoUtilizado)
                                    {
@@ -180,12 +180,11 @@
 
     public string ?utilizado {get; set;}
     public Productos producto { get; set; } = new Productos();
-    ProductosDetalle productosDetalle = new ProductosDetalle();
     EntradaEmpacado entrada {get; set;} = new EntradaEmpacado();
     public List<Productos> lista { get; set; } = new List<Productos>();
         
     public List<ProductosDetalle> lista1 { get; set; } = new List<ProductosDetalle>();
-    public List<EntradaEmpacado> entra { get; set; } = new List<EntradaEmpacado>();
+    public List<EntradaEmpacado> listaEmpaque { get; set; } = new List<EntradaEmpacado>();
     
 
     
@@ -225,7 +224,6 @@
     public void Nuevo()
     {
         entrada = new EntradaEmpacado();
-        productosDetalle = new ProductosDetalle();
         producto = new Productos();
     }
 
@@ -258,7 +256,7 @@
 
     private void Agregar()
     {   
-        entra.Add(entrada);
+        listaEmpaque.Add(entrada);
 
         foreach (var item in lista)
         {
@@ -276,7 +274,7 @@
 
     private void RemoverFila(EntradaEmpacado item)
     {
-        if(entra.Remove(item))
+        if(listaEmpaque.Remove(item))
         {
             toastService.ShowSuccess("Se ha removido con Exito");
         }

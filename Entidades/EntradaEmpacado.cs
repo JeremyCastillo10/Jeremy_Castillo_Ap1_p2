@@ -21,6 +21,8 @@ public class EntradaEmpacado
 
     public int CantidadProducido { get; set; }
 
+    public virtual List<Productos> entradaEmpacados {get;set;}= new List<Productos>();
+
 
 }
 }
