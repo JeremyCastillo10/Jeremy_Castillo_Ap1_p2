@@ -63,7 +63,7 @@
     public List<EntradaEmpacado> listap { get; set; } = new List<EntradaEmpacado>();
 
   [Inject]
-    public ProductosBLL productosBLL { get; set; }
+    public EntradaEmpacadoBLL entradaEmpacadoBLL { get; set; }
 
     private void Buscar()
     {
@@ -72,18 +72,18 @@
             switch(filtro)
             {
                 case "0":
-                    listap=productosBLL.GetListEntrada(p => p.Fecha.ToString().Contains(Criterio.ToLower()));
+                    listap=entradaEmpacadoBLL.GetListEntrada(p => p.Fecha.ToString().Contains(Criterio.ToLower()));
                     break;
                 case "1":
-                    listap=productosBLL.GetListEntrada(p => p.Concepto.ToString().Contains(Criterio.ToLower()));
+                    listap=entradaEmpacadoBLL.GetListEntrada(p => p.Concepto.ToString().Contains(Criterio.ToLower()));
                     break;
                 case "2":
-                    listap=productosBLL.GetListEntrada(p => p.Id.ToString().Contains(Criterio.ToLower()));
+                    listap=entradaEmpacadoBLL.GetListEntrada(p => p.Id.ToString().Contains(Criterio.ToLower()));
                     break;
             }
         }else
         {
-            listap=productosBLL.GetListEntrada(p=>true);
+            listap=entradaEmpacadoBLL.GetListEntrada(p=>true);
         }
     }
 

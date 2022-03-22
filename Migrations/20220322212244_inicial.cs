@@ -10,6 +10,24 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "EntradaEmpacado",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProductoUtilizado = table.Column<string>(type: "TEXT", nullable: true),
+                    ProductoProducido = table.Column<string>(type: "TEXT", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Concepto = table.Column<string>(type: "TEXT", nullable: false),
+                    CantidadUtilizado = table.Column<int>(type: "INTEGER", nullable: false),
+                    CantidadProducido = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EntradaEmpacado", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Productos",
                 columns: table => new
                 {
@@ -30,27 +48,27 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EntradaEmpacado",
+                name: "EntradaEmpacadoProductos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ProductoUtilizado = table.Column<string>(type: "TEXT", nullable: true),
-                    ProductoProducido = table.Column<string>(type: "TEXT", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Concepto = table.Column<string>(type: "TEXT", nullable: false),
-                    CantidadUtilizado = table.Column<int>(type: "INTEGER", nullable: false),
-                    CantidadProducido = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProductosProductoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    EntradaEmpacadosId = table.Column<int>(type: "INTEGER", nullable: false),
+                    entradaEmpacadosProductoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntradaEmpacado", x => x.Id);
+                    table.PrimaryKey("PK_EntradaEmpacadoProductos", x => new { x.EntradaEmpacadosId, x.entradaEmpacadosProductoId });
                     table.ForeignKey(
-                        name: "FK_EntradaEmpacado_Productos_ProductosProductoId",
-                        column: x => x.ProductosProductoId,
+                        name: "FK_EntradaEmpacadoProductos_EntradaEmpacado_EntradaEmpacadosId",
+                        column: x => x.EntradaEmpacadosId,
+                        principalTable: "EntradaEmpacado",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EntradaEmpacadoProductos_Productos_entradaEmpacadosProductoId",
+                        column: x => x.entradaEmpacadosProductoId,
                         principalTable: "Productos",
-                        principalColumn: "ProductoId");
+                        principalColumn: "ProductoId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,9 +96,9 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EntradaEmpacado_ProductosProductoId",
-                table: "EntradaEmpacado",
-                column: "ProductosProductoId");
+                name: "IX_EntradaEmpacadoProductos_entradaEmpacadosProductoId",
+                table: "EntradaEmpacadoProductos",
+                column: "entradaEmpacadosProductoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductosDetalles_ProductoId",
@@ -91,10 +109,13 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EntradaEmpacado");
+                name: "EntradaEmpacadoProductos");
 
             migrationBuilder.DropTable(
                 name: "ProductosDetalles");
+
+            migrationBuilder.DropTable(
+                name: "EntradaEmpacado");
 
             migrationBuilder.DropTable(
                 name: "Productos");

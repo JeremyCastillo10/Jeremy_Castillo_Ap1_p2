@@ -11,13 +11,28 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jeremy_Castillo_Ap1_p2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20220316023555_inicial")]
+    [Migration("20220322212244_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
+
+            modelBuilder.Entity("EntradaEmpacadoProductos", b =>
+                {
+                    b.Property<int>("EntradaEmpacadosId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("entradaEmpacadosProductoId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("EntradaEmpacadosId", "entradaEmpacadosProductoId");
+
+                    b.HasIndex("entradaEmpacadosProductoId");
+
+                    b.ToTable("EntradaEmpacadoProductos");
+                });
 
             modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", b =>
                 {
@@ -45,12 +60,7 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                     b.Property<string>("ProductoUtilizado")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProductosProductoId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductosProductoId");
 
                     b.ToTable("EntradaEmpacado");
                 });
@@ -122,11 +132,19 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                     b.ToTable("ProductosDetalles");
                 });
 
-            modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", b =>
+            modelBuilder.Entity("EntradaEmpacadoProductos", b =>
                 {
+                    b.HasOne("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", null)
+                        .WithMany()
+                        .HasForeignKey("EntradaEmpacadosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Jeremy_Castillo_Ap1_p2.Entidades.Productos", null)
-                        .WithMany("EntradaEmpacados")
-                        .HasForeignKey("ProductosProductoId");
+                        .WithMany()
+                        .HasForeignKey("entradaEmpacadosProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.ProductosDetalle", b =>
@@ -140,8 +158,6 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
 
             modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.Productos", b =>
                 {
-                    b.Navigation("EntradaEmpacados");
-
                     b.Navigation("productosDetalle");
                 });
 #pragma warning restore 612, 618

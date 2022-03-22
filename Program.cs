@@ -21,6 +21,7 @@ builder.Services.AddDbContext<Contexto>(options =>
 
 
 builder.Services.AddTransient<ProductosBLL>();
+builder.Services.AddTransient<EntradaEmpacadoBLL>();
 
 var app = builder.Build();
 

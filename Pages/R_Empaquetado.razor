@@ -192,6 +192,11 @@
     [Inject]
     public ProductosBLL productosBLL { get; set; }
 
+  
+    [Inject] 
+
+    public EntradaEmpacadoBLL entradaEmpacadoBLL {get;  set;}
+
 
 
     protected override void OnInitialized()
@@ -206,7 +211,7 @@
     {
         if (this.entrada.Id > 0)
         {
-            EntradaEmpacado encontrado = productosBLL.BuscarEmp(this.entrada.Id);
+            EntradaEmpacado encontrado = entradaEmpacadoBLL.BuscarEmp(this.entrada.Id);
             if (encontrado != null)
             {
                 this.entrada = encontrado;
@@ -229,7 +234,7 @@
 
     public void Guardar()
     {
-        if (productosBLL.GuardarEmp(entrada))
+        if (entradaEmpacadoBLL.GuardarEmp(entrada))
         {
             toastService.ShowSuccess("Se guardó exitosamente");
             Nuevo();
@@ -241,7 +246,7 @@
     private void Eliminar()
     {
         bool eliminado;
-        eliminado = productosBLL.EliminarEmp(entrada.Id);
+        eliminado = entradaEmpacadoBLL.EliminarEmp(entrada.Id);
         if (eliminado)
         {
             Nuevo();
