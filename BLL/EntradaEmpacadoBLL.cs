@@ -27,7 +27,7 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
 
             try
             {
-                paso = _contexto.EntradaEmpacado.Any(p => p.Id == EmpacadoId);
+                paso = _contexto.EntradaEmpacado.Any(p => p.EntradaId == EmpacadoId);
             }
             catch (Exception)
             {
@@ -62,7 +62,7 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
 
             try
             {
-                _contexto.Database.ExecuteSqlRaw($"Delete FROM EntradaEmpacado where Id={entrada.Id}");
+                _contexto.Database.ExecuteSqlRaw($"Delete FROM EntradaEmpacado where Id={entrada.EntradaId}");
 
                 foreach (var anterior in Productos.EntradaEmpacados)
                 {
@@ -90,7 +90,7 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
 
         public bool GuardarEmp(EntradaEmpacado entrada)
         {
-            if (!ExisteEmp(entrada.Id))//si no existe insertamos
+            if (!ExisteEmp(entrada.EntradaId))//si no existe insertamos
                 return Insertaremp(entrada);
             else
                 return Modificaremp(entrada);

@@ -43,9 +43,9 @@
                 @foreach (var item in listap)
                 {
                     <tr>
-                        <td>@item.Id</td>
+                        <td>@item.EntradaId</td>
                         <td>@item.Concepto</td>
-                        <td><a class="btn btn-sm btn-outline-primary oi oi-eye" href="R_Empaquetado/@item.Id">Ver</a></td>
+                        <td><a class="btn btn-sm btn-outline-primary oi oi-eye" href="R_Empaquetado/@item.EntradaId">Ver</a></td>
                     </tr>
                 }
                 
@@ -78,7 +78,7 @@
                     listap=entradaEmpacadoBLL.GetListEntrada(p => p.Concepto.ToString().Contains(Criterio.ToLower()));
                     break;
                 case "2":
-                    listap=entradaEmpacadoBLL.GetListEntrada(p => p.Id.ToString().Contains(Criterio.ToLower()));
+                    listap=entradaEmpacadoBLL.GetListEntrada(p => p.EntradaId.ToString().Contains(Criterio.ToLower()));
                     break;
             }
         }else

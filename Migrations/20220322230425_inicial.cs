@@ -13,8 +13,9 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 name: "EntradaEmpacado",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    EntradaId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ProductoId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductoUtilizado = table.Column<string>(type: "TEXT", nullable: true),
                     ProductoProducido = table.Column<string>(type: "TEXT", nullable: false),
                     Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -24,7 +25,7 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntradaEmpacado", x => x.Id);
+                    table.PrimaryKey("PK_EntradaEmpacado", x => x.EntradaId);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,21 +52,21 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 name: "EntradaEmpacadoProductos",
                 columns: table => new
                 {
-                    EntradaEmpacadosId = table.Column<int>(type: "INTEGER", nullable: false),
-                    entradaEmpacadosProductoId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ProductoId = table.Column<int>(type: "INTEGER", nullable: false),
+                    productosProductoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntradaEmpacadoProductos", x => new { x.EntradaEmpacadosId, x.entradaEmpacadosProductoId });
+                    table.PrimaryKey("PK_EntradaEmpacadoProductos", x => new { x.ProductoId, x.productosProductoId });
                     table.ForeignKey(
-                        name: "FK_EntradaEmpacadoProductos_EntradaEmpacado_EntradaEmpacadosId",
-                        column: x => x.EntradaEmpacadosId,
+                        name: "FK_EntradaEmpacadoProductos_EntradaEmpacado_ProductoId",
+                        column: x => x.ProductoId,
                         principalTable: "EntradaEmpacado",
-                        principalColumn: "Id",
+                        principalColumn: "EntradaId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EntradaEmpacadoProductos_Productos_entradaEmpacadosProductoId",
-                        column: x => x.entradaEmpacadosProductoId,
+                        name: "FK_EntradaEmpacadoProductos_Productos_productosProductoId",
+                        column: x => x.productosProductoId,
                         principalTable: "Productos",
                         principalColumn: "ProductoId",
                         onDelete: ReferentialAction.Cascade);
@@ -96,9 +97,9 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EntradaEmpacadoProductos_entradaEmpacadosProductoId",
+                name: "IX_EntradaEmpacadoProductos_productosProductoId",
                 table: "EntradaEmpacadoProductos",
-                column: "entradaEmpacadosProductoId");
+                column: "productosProductoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductosDetalles_ProductoId",

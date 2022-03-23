@@ -163,7 +163,7 @@ namespace Jeremy_Castillo_Ap1_p2.BLL
 
             try
             {
-                paso = _contexto.EntradaEmpacado.Any(p => p.Id == EmpacadoId);
+                paso = _contexto.EntradaEmpacado.Any(p => p.EntradaId == EmpacadoId);
             }
             catch (Exception)
             {

@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jeremy_Castillo_Ap1_p2.Entidades{
 public class EntradaEmpacado
 {
     [Key]
-    public int Id { get; set; }
+    public int EntradaId { get; set; }
+    public int ProductoId { get; set; }
 
     public string ? ProductoUtilizado {get; set; }
     [Required(ErrorMessage = "Campo obligatorio.")]
@@ -21,7 +23,10 @@ public class EntradaEmpacado
 
     public int CantidadProducido { get; set; }
 
-    public virtual List<Productos> entradaEmpacados {get;set;}= new List<Productos>();
+    [ForeignKey("ProductoId")]
+
+    public virtual List<Productos> productos {get; set;} = new List<Productos>(); 
+
 
 
 }

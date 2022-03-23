@@ -20,8 +20,8 @@
                         <div class="flex-fill mx-2">
                             <div class="input-group">
                                 <span class="input-group-text">Id</span>
-                                <InputNumber @bind-Value="entrada.Id" class="form-control col-4" />
-                                <ValidationMessage For="@(() => entrada.Id)" />
+                                <InputNumber @bind-Value="entrada.EntradaId" class="form-control col-4" />
+                                <ValidationMessage For="@(() => entrada.EntradaId)" />
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary input-group-text"
                                         @onclick="Buscar"><span class="oi oi-magnifying-glass"></span></button>
@@ -65,7 +65,7 @@
                                     @foreach (var item in lista)
 
                                     {
-                                        <option value="@item.Descripcion">@item.Descripcion</option>
+                                        <option value="@entrada.ProductoUtilizado">@item.Descripcion</option>
                                     }
                                 </InputSelect>
 
@@ -177,13 +177,10 @@
     [Parameter]
     public int entradaId { get; set; }
     public int productoId { get; set; }
-
-    public string ?utilizado {get; set;}
     public Productos producto { get; set; } = new Productos();
     EntradaEmpacado entrada {get; set;} = new EntradaEmpacado();
     public List<Productos> lista { get; set; } = new List<Productos>();
         
-    public List<ProductosDetalle> lista1 { get; set; } = new List<ProductosDetalle>();
     public List<EntradaEmpacado> listaEmpaque { get; set; } = new List<EntradaEmpacado>();
     
 
@@ -201,17 +198,17 @@
 
     protected override void OnInitialized()
     {
+    entrada.EntradaId = entradaId;
     producto.ProductoId = productoId;
     lista = productosBLL.GetList(p => true); 
-
      Buscar();
     }
 
     public void Buscar()
     {
-        if (this.entrada.Id > 0)
+        if (this.entrada.EntradaId > 0)
         {
-            EntradaEmpacado encontrado = entradaEmpacadoBLL.BuscarEmp(this.entrada.Id);
+            EntradaEmpacado encontrado = entradaEmpacadoBLL.BuscarEmp(this.entrada.EntradaId);
             if (encontrado != null)
             {
                 this.entrada = encontrado;
@@ -246,7 +243,7 @@
     private void Eliminar()
     {
         bool eliminado;
-        eliminado = entradaEmpacadoBLL.EliminarEmp(entrada.Id);
+        eliminado = entradaEmpacadoBLL.EliminarEmp(entrada.EntradaId);
         if (eliminado)
         {
             Nuevo();
@@ -262,18 +259,17 @@
     private void Agregar()
     {   
         listaEmpaque.Add(entrada);
+        foreach (var items in lista)
 
-        foreach (var item in lista)
-        {
-            if(entrada.CantidadProducido > 0)
             {
-                item.Existencia = item.Existencia - entrada.CantidadProducido*entrada.CantidadUtilizado;
+                foreach (var item in listaEmpaque)
+                 {
+                   if (items.Descripcion == item.ProductoUtilizado)
+                    {
+                        items.Existencia = items.Existencia - item.CantidadUtilizado*item.CantidadProducido;     
+                    }
+                 }
             }
-            else{
-                item.Existencia -= entrada.CantidadUtilizado;
-            }
-            
-        }
 
     }
 

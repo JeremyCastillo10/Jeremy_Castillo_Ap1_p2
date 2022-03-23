@@ -19,22 +19,22 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
 
             modelBuilder.Entity("EntradaEmpacadoProductos", b =>
                 {
-                    b.Property<int>("EntradaEmpacadosId")
+                    b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("entradaEmpacadosProductoId")
+                    b.Property<int>("productosProductoId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("EntradaEmpacadosId", "entradaEmpacadosProductoId");
+                    b.HasKey("ProductoId", "productosProductoId");
 
-                    b.HasIndex("entradaEmpacadosProductoId");
+                    b.HasIndex("productosProductoId");
 
                     b.ToTable("EntradaEmpacadoProductos");
                 });
 
             modelBuilder.Entity("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EntradaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -51,6 +51,9 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ProductoProducido")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -58,7 +61,7 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                     b.Property<string>("ProductoUtilizado")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("EntradaId");
 
                     b.ToTable("EntradaEmpacado");
                 });
@@ -134,13 +137,13 @@ namespace Jeremy_Castillo_Ap1_p2.Migrations
                 {
                     b.HasOne("Jeremy_Castillo_Ap1_p2.Entidades.EntradaEmpacado", null)
                         .WithMany()
-                        .HasForeignKey("EntradaEmpacadosId")
+                        .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Jeremy_Castillo_Ap1_p2.Entidades.Productos", null)
                         .WithMany()
-                        .HasForeignKey("entradaEmpacadosProductoId")
+                        .HasForeignKey("productosProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
